@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import $ from 'jquery';
-import '../stylesheets/FormView.css';
+import React, { Component } from 'react'
+import $ from 'jquery'
+import '../stylesheets/FormView.css'
 
 class FormView extends Component {
   constructor(props) {
-    super();
+    super()
     this.state = {
       question: '',
       answer: '',
       difficulty: 1,
       category: 1,
       categories: {},
-    };
+    }
   }
 
   componentDidMount() {
@@ -19,18 +19,18 @@ class FormView extends Component {
       url: `/categories`, //TODO: update request URL
       type: 'GET',
       success: (result) => {
-        this.setState({ categories: result.categories });
-        return;
+        this.setState({ categories: result.categories })
+        return
       },
       error: (error) => {
-        alert('Unable to load categories. Please try your request again');
-        return;
+        alert('Unable to load categories. Please try your request again')
+        return
       },
-    });
+    })
   }
 
   submitQuestion = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     $.ajax({
       url: '/questions', //TODO: update request URL
       type: 'POST',
@@ -47,19 +47,19 @@ class FormView extends Component {
       },
       crossDomain: true,
       success: (result) => {
-        document.getElementById('add-question-form').reset();
-        return;
+        document.getElementById('add-question-form').reset()
+        return
       },
       error: (error) => {
-        alert('Unable to add question. Please try your request again');
-        return;
+        alert('Unable to add question. Please try your request again')
+        return
       },
-    });
-  };
+    })
+  }
 
   handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+    this.setState({ [event.target.name]: event.target.value })
+  }
 
   render() {
     return (
@@ -96,15 +96,15 @@ class FormView extends Component {
                   <option key={id} value={id}>
                     {this.state.categories[id]}
                   </option>
-                );
+                )
               })}
             </select>
           </label>
           <input type='submit' className='button' value='Submit' />
         </form>
       </div>
-    );
+    )
   }
 }
 
-export default FormView;
+export default FormView

@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import $ from 'jquery';
-import '../stylesheets/QuizView.css';
+import React, { Component } from 'react'
+import $ from 'jquery'
+import '../stylesheets/QuizView.css'
 
-const questionsPerPlay = 5;
+const questionsPerPlay = 5
 
 class QuizView extends Component {
   constructor(props) {
-    super();
+    super()
     this.state = {
       quizCategory: null,
       previousQuestions: [],
@@ -16,40 +16,40 @@ class QuizView extends Component {
       currentQuestion: {},
       guess: '',
       forceEnd: false,
-    };
+    }
   }
 
   componentDidMount() {
     $.ajax({
-      url: `/categories`, //TODO: update request URL
+      url: `/categories`, //DONE: update request URL
       type: 'GET',
       success: (result) => {
-        this.setState({ categories: result.categories });
-        return;
+        this.setState({ categories: result.categories })
+        return
       },
       error: (error) => {
-        alert('Unable to load categories. Please try your request again');
-        return;
+        alert('Unable to load categories. Please try your request again')
+        return
       },
-    });
+    })
   }
 
   selectCategory = ({ type, id = 0 }) => {
-    this.setState({ quizCategory: { type, id } }, this.getNextQuestion);
-  };
+    this.setState({ quizCategory: { type, id } }, this.getNextQuestion)
+  }
 
   handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
+    this.setState({ [event.target.name]: event.target.value })
+  }
 
   getNextQuestion = () => {
-    const previousQuestions = [...this.state.previousQuestions];
+    const previousQuestions = [...this.state.previousQuestions]
     if (this.state.currentQuestion.id) {
-      previousQuestions.push(this.state.currentQuestion.id);
+      previousQuestions.push(this.state.currentQuestion.id)
     }
 
     $.ajax({
-      url: '/quizzes', //TODO: update request URL
+      url: '/quizes', //DONE: update request URL
       type: 'POST',
       dataType: 'json',
       contentType: 'application/json',
@@ -68,24 +68,24 @@ class QuizView extends Component {
           currentQuestion: result.question,
           guess: '',
           forceEnd: result.question ? false : true,
-        });
-        return;
+        })
+        return
       },
       error: (error) => {
-        alert('Unable to load question. Please try your request again');
-        return;
+        alert('Unable to load question. Please try your request again')
+        return
       },
-    });
-  };
+    })
+  }
 
   submitGuess = (event) => {
-    event.preventDefault();
-    let evaluate = this.evaluateAnswer();
+    event.preventDefault()
+    let evaluate = this.evaluateAnswer()
     this.setState({
       numCorrect: !evaluate ? this.state.numCorrect : this.state.numCorrect + 1,
       showAnswer: true,
-    });
-  };
+    })
+  }
 
   restartGame = () => {
     this.setState({
@@ -96,8 +96,8 @@ class QuizView extends Component {
       currentQuestion: {},
       guess: '',
       forceEnd: false,
-    });
-  };
+    })
+  }
 
   renderPrePlay() {
     return (
@@ -119,11 +119,11 @@ class QuizView extends Component {
               >
                 {this.state.categories[id]}
               </div>
-            );
+            )
           })}
         </div>
       </div>
-    );
+    )
   }
 
   renderFinalScore() {
@@ -136,22 +136,22 @@ class QuizView extends Component {
           Play Again?
         </div>
       </div>
-    );
+    )
   }
 
   evaluateAnswer = () => {
     const formatGuess = this.state.guess
       // eslint-disable-next-line
       .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, '')
-      .toLowerCase();
+      .toLowerCase()
     const answerArray = this.state.currentQuestion.answer
       .toLowerCase()
-      .split(' ');
-    return answerArray.every((el) => formatGuess.includes(el));
-  };
+      .split(' ')
+    return answerArray.every((el) => formatGuess.includes(el))
+  }
 
   renderCorrectAnswer() {
-    let evaluate = this.evaluateAnswer();
+    let evaluate = this.evaluateAnswer()
     return (
       <div className='quiz-play-holder'>
         <div className='quiz-question'>
@@ -166,7 +166,7 @@ class QuizView extends Component {
           Next Question{' '}
         </div>
       </div>
-    );
+    )
   }
 
   renderPlay() {
@@ -189,12 +189,12 @@ class QuizView extends Component {
           />
         </form>
       </div>
-    );
+    )
   }
 
   render() {
-    return this.state.quizCategory ? this.renderPlay() : this.renderPrePlay();
+    return this.state.quizCategory ? this.renderPlay() : this.renderPrePlay()
   }
 }
 
-export default QuizView;
+export default QuizView

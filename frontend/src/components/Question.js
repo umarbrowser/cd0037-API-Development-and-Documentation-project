@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import '../stylesheets/Question.css';
+import React, { Component } from 'react'
+import '../stylesheets/Question.css'
 
 class Question extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       visibleAnswer: false,
-    };
+    }
   }
 
   flipVisibility() {
-    this.setState({ visibleAnswer: !this.state.visibleAnswer });
+    this.setState({ visibleAnswer: !this.state.visibleAnswer })
   }
 
   render() {
-    const { question, answer, category, difficulty } = this.props;
+    const { question, answer, category, difficulty } = this.props
     return (
       <div className='Question-holder'>
         <div className='Question'>{question}</div>
@@ -48,8 +48,8 @@ class Question extends Component {
           </span>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Question;
+export default Question
